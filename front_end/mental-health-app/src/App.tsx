@@ -1,13 +1,15 @@
+import Typography from "@mui/material/Typography";
 import "./App.css";
-import ButtonUsage from "./components/button";
+import RecordButton from "./components/RecordButton";
 
 function App() {
   return (
-    <>
-      <div>
-        <ButtonUsage />
+    <div className="App">
+      <div className="recordAudio">
+        <Typography variant="h5">Start recording</Typography>
+        <RecordButton />
       </div>
-    </>
+    </div>
   );
 }
 
