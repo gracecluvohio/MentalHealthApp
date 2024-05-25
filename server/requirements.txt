@@ -1,0 +1,11 @@
+uvicorn~=0.29.0
+fastapi~=0.111.0
+openai-whisper~=20231117
+whisper_cpp_python~=0.2.0
+google-generativeai~=0.5.4
+requests~=2.32.2
+cloudinary~=1.40.0
+jsonpickle~=3.0.4
+azure-cognitiveservices-speech~=1.37.0
+transformers~=4.41.1
+TTS~=0.22.0
