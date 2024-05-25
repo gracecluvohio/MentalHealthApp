@@ -18,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { Entry as EntryType } from "./types";
 
 const drawerWidth = 240;
 
@@ -25,7 +26,8 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [openForm, setOpenForm] = React.useState(false);
-  const [entries, setEntries] = React.useState<string[]>([]);
+  const [entries, setEntries] = React.useState<EntryType[]>([]);
+  const [curID, setCurID] = React.useState<number>(1);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -55,7 +57,13 @@ export default function ResponsiveDrawer() {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
     const title = formJson.title as string;
-    setEntries((prevEntries) => [...prevEntries, title]);
+    const newEntry = {
+      id: curID,
+      title: title,
+    };
+    setCurID(curID + 1);
+    setEntries((prevEntries) => [...prevEntries, newEntry]);
+    console.log(entries);
     handleCloseForm();
   };
 
@@ -98,10 +106,10 @@ export default function ResponsiveDrawer() {
           </DialogActions>
         </Dialog>
         <List>
-          {entries.map((text, index) => (
+          {entries.map((entry, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
-                <ListItemText primary={text} />
+                <ListItemText primary={entry.title} />
               </ListItemButton>
             </ListItem>
           ))}
