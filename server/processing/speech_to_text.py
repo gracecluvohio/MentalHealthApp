@@ -29,7 +29,7 @@ except FileNotFoundError:
     from whisper_cpp_python import Whisper
 
 model_py = whisper.load_model("tiny.en")
-whisper_cpp = Whisper(model_path="/Users/tristan/Desktop/whisper.cpp/models/ggml-base.en.bin")
+whisper_cpp = Whisper(model_path="resources/whisper.cpp/models/ggml-base.en.bin")
 
 
 # Slower, prefer speech_to_text_cpp

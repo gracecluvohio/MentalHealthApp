@@ -39,7 +39,7 @@ def text_to_speech_coqui(text: str) -> bytes:
     start_time = time.time_ns() / 1_000_000
 
     temp_file = Path(f"tmp/{str(uuid4())}.wav")
-    tts.tts_to_file(text, speaker_wav="female.wav", file_path=str(temp_file))
+    tts.tts_to_file(text, speaker_wav="resources/female.wav", file_path=str(temp_file))
     audio_data = temp_file.read_bytes()
     temp_file.unlink()
 
