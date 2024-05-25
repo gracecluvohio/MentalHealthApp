@@ -6,12 +6,16 @@ import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
 
-export default function ChatTextField() {
+interface Props {
+  onSendMessage: (message: string) => void;
+}
+
+export default function ChatInput({ onSendMessage }: Props) {
   const theme = useTheme();
   const [message, setMessage] = React.useState<string>("");
-  const [messages, setMessages] = React.useState<
-    { text: string; fromUser: boolean }[]
-  >([]);
+  // const [messages, setMessages] = React.useState<
+  //   { text: string; fromUser: boolean }[]
+  // >([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -19,18 +23,19 @@ export default function ChatTextField() {
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: message, fromUser: true },
-      ]);
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   { text: message, fromUser: true },
+      //]);
+      onSendMessage(message);
       setMessage("");
     }
   };
 
-// // uncomment below to print the list of messages on console
-//   React.useEffect(() => {
-//     console.log("Updated messages:", messages);
-//   }, [messages]);
+  // // uncomment below to print the list of messages on console
+  //   React.useEffect(() => {
+  //     console.log("Updated messages:", messages);
+  //   }, [messages]);
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -40,15 +45,6 @@ export default function ChatTextField() {
   };
 
   return (
-    // <div className="chat">
-
-    // <div className="messages">
-    //     {messages.map((message, index))}
-        
-
-    // </div>
-
-        
     <Box
       component="form"
       sx={{
@@ -103,5 +99,3 @@ export default function ChatTextField() {
     </Box>
   );
 }
-
-

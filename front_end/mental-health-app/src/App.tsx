@@ -1,10 +1,9 @@
+import { ThemeProvider } from "@mui/material";
 import "./App.css";
-import ChatTextField from "./components/ChatTextField";
 import ResponsiveDrawer from "./components/Sidebar";
+
 import theme from "./theme";
-import {ThemeProvider } from "@mui/material";
-
-
+import ChatHome from './components/ChatHome'
 /**creates the font for our text */
 // const theme = createTheme({
 //   typography: {
@@ -16,12 +15,12 @@ import {ThemeProvider } from "@mui/material";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-    <div className="App">
-      <ResponsiveDrawer />
-      <div className="chatContainer">
-        <ChatTextField />
+      <div className="App">
+        <ResponsiveDrawer />
+        <div className="chatContainer">
+          <ChatHome/>
+        </div>
       </div>
-    </div>
     </ThemeProvider>
   );
 }
