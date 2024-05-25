@@ -3,33 +3,29 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
 const drawerWidth = 240;
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
-  window?: () => Window;
-}
-
-export default function ResponsiveDrawer(props: Props) {
-  const { window } = props;
+export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const [items, setItems] = React.useState<string[]>([]);
-  const [newItem, setNewItem] = React.useState<string>("");
+  const [openForm, setOpenForm] = React.useState(false);
+  const [entries, setEntries] = React.useState<string[]>([]);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -46,39 +42,73 @@ export default function ResponsiveDrawer(props: Props) {
     }
   };
 
-  const handleNewItemChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewItem(event.target.value);
+  const handleClickCreate = () => {
+    setOpenForm(true);
   };
 
-  const handleAddItem = () => {
-    if (newItem.trim() !== "") {
-      setItems([...items, newItem.trim()]);
-      setNewItem("");
-    }
+  const handleCloseForm = () => {
+    setOpenForm(false);
+  };
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    const title = formJson.title as string;
+    setEntries((prevEntries) => [...prevEntries, title]);
+    handleCloseForm();
   };
 
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
-      <Button variant="contained">Create new entry</Button>
-      {/** on click add option, variable lists */}
-      <List>
-        {["Entry1", "Entry2", "Entry3", "Entry4"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
+      <React.Fragment>
+        <Toolbar />
+        <Button variant="contained" onClick={handleClickCreate}>
+          Create new entry
+        </Button>
+        {/** If the button above is clicked, open the create entry dialog as below */}
+        <Dialog
+          open={openForm}
+          onClose={handleCloseForm}
+          PaperProps={{
+            component: "form",
+            onSubmit: handleFormSubmit,
+          }}
+        >
+          <DialogTitle>Journal Entry Title</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Enter the title for your journal entry.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="title"
+              name="title"
+              label="Title"
+              type="title"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseForm}>Cancel</Button>
+            <Button type="submit">Confirm</Button>
+          </DialogActions>
+        </Dialog>
+        <List>
+          {entries.map((text, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </React.Fragment>
     </div>
   );
-
-  // Remove this const when copying and pasting into your project.
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -101,7 +131,7 @@ export default function ResponsiveDrawer(props: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Project Name
+            Solace
           </Typography>
         </Toolbar>
       </AppBar>
@@ -112,7 +142,6 @@ export default function ResponsiveDrawer(props: Props) {
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}

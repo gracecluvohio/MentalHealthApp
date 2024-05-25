@@ -1,11 +1,11 @@
-// import Typography from "@mui/material/Typography";
 import "./App.css";
-// import LetterAvatars from "./components/AvatarProfiles";
-// import RecordButton from "./components/RecordButton";
-import Sidebar from "./components/Sidebar";
+import ChatTextField from "./components/ChatTextField";
+import ResponsiveDrawer from "./components/Sidebar";
+import theme from "./theme";
+import {ThemeProvider } from "@mui/material";
+
 
 /**creates the font for our text */
-// import { createTheme, ThemeProvider } from "@mui/material";
 // const theme = createTheme({
 //   typography: {
 //     fontFamily: ["Chilanka", "cursive"].join(","),
@@ -15,19 +15,14 @@ import Sidebar from "./components/Sidebar";
 /**main function for our App as of now*/
 function App() {
   return (
-    // <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
     <div className="App">
-      <Sidebar />
-      {/* <div className="pageTitle">
-        <Typography variant="h3">Project Name</Typography>
+      <ResponsiveDrawer />
+      <div className="chatContainer">
+        <ChatTextField />
       </div>
-      <div className="recordAudio">
-        <Typography variant="h5">Record audio below:</Typography>
-        <RecordButton />
-        <LetterAvatars />
-      </div> */}
     </div>
-    // </ThemeProvider>
+    </ThemeProvider>
   );
 }
 
