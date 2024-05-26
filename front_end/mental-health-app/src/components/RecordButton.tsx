@@ -11,13 +11,16 @@ export default function RecordButton() {
   };
 
   return (
-    <Fab color="primary" aria-label="record" onClick={handleButtonClick}>
+    <Fab color="primary" aria-label="record" style={{ position:'fixed', bottom:'20px', right:'unset', top:'unset', left:"265px"}} onClick={handleButtonClick}>
       {/* "isRecording ?" = If isRecording true..., ":" = else*/}
       {isRecording ? (
-        <StopIcon sx={{ color: "#FFBF00" }} />
+        <StopIcon />
       ) : (
-        <MicIcon sx={{ color: "#FFBF00" }} />
+        <MicIcon />
       )}
     </Fab>
   );
 }
+
+
+

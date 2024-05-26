@@ -5,7 +5,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
-import API from "../api/API";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -27,8 +26,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      console.log(entries);
-      API.sendChatMessage("user", entries[entryID], undefined, message);
+      // console.log(entries);
       onSendMessage(message);
       setMessage("");
     }

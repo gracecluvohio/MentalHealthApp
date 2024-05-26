@@ -4,6 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -68,12 +69,15 @@ export default function ResponsiveDrawer(
         </Button>
         {/** If the button above is clicked, open the create entry dialog as below */}
         <List>
-          {Object.entries(entries).map(([id, date]) => (
-            <ListItem key={id} disablePadding>
-              <ListItemButton onClick={() => changeEntry(Number(id))}>
-                <ListItemText primary={date.toLocaleString()} />
-              </ListItemButton>
-            </ListItem>
+          {Object.entries(entries).map(([id, date], index) => (
+            <React.Fragment key={id}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => changeEntry(Number(id))}>
+                  <ListItemText primary={date.toLocaleString()} />
+                </ListItemButton>
+              </ListItem>
+              {index < Object.entries(entries).length - 1 && <Divider />}
+            </React.Fragment>
           ))}
         </List>
       </React.Fragment>
