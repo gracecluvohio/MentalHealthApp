@@ -6,3 +6,5 @@ enum Mood {
   sadness,
   surprise,
 }
+
+export default Mood;

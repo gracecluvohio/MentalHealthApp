@@ -3,11 +3,16 @@ import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import { Message as MessageType } from "./types";
 
-export default function ChatHome({ entryID }: { entryID: number }) {
+interface ChatHomeProps {
+  entryID: number;
+  entries: Record<number, Date>;
+}
+
+const ChatHome: React.FC<ChatHomeProps> = ({ entryID, entries }) => {
   const [messages, setMessages] = React.useState<MessageType[][]>([]);
-  console.log(messages);
-  console.log(entryID);
-  console.log(messages[entryID]);
+  //   console.log(messages);
+  //   console.log(entryID);
+  //   console.log(messages[entryID]);
 
   function onSendMessage(message: string) {
     const newMessage = {
@@ -31,8 +36,14 @@ export default function ChatHome({ entryID }: { entryID: number }) {
   }
   return (
     <>
-      <ChatInput onSendMessage={onSendMessage} />
+      <ChatInput
+        onSendMessage={onSendMessage}
+        entries={entries}
+        entryID={entryID}
+      />
       <Messages messages={messages[entryID] ?? []} entryID={entryID}></Messages>
     </>
   );
-}
+};
+
+export default ChatHome;

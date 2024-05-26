@@ -5,13 +5,19 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
-import API from "../api";
+import API from "../api/API";
 
-interface Props {
+interface ChatInputProps {
   onSendMessage: (message: string) => void;
+  entryID: number;
+  entries: Record<number, Date>;
 }
 
-export default function ChatInput({ onSendMessage }: Props) {
+const ChatInput: React.FC<ChatInputProps> = ({
+  onSendMessage,
+  entries,
+  entryID,
+}) => {
   const theme = useTheme();
   const [message, setMessage] = React.useState<string>("");
 
@@ -21,6 +27,8 @@ export default function ChatInput({ onSendMessage }: Props) {
 
   const handleSendMessage = () => {
     if (message.trim()) {
+      console.log(entries);
+      API.sendChatMessage("user", entries[entryID], undefined, message);
       onSendMessage(message);
       setMessage("");
     }
@@ -87,4 +95,6 @@ export default function ChatInput({ onSendMessage }: Props) {
       </div>
     </Box>
   );
-}
+};
+
+export default ChatInput;

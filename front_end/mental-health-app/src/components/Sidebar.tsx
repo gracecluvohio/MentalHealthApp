@@ -1,3 +1,4 @@
+import Brightness7OutlinedIcon from "@mui/icons-material/Brightness7Outlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -12,16 +13,18 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { Entry as EntryType } from "./types";
 
 const drawerWidth = 240;
 
-export default function ResponsiveDrawer({ changeEntry }: any) {
+export default function ResponsiveDrawer(
+  { changeEntry }: any, // ignore warnings for these
+  { changeEntriesRecord }: any
+) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const [entries, setEntries] = React.useState<EntryType[]>([
-    { id: 0, date: new Date() },
-  ]);
+  const [entries, setEntries] = React.useState<Record<number, Date>>({
+    0: new Date(),
+  });
   const [newID, setNewID] = React.useState<number>(1);
   // const [curEntryID, setCurEntryID] = React.useState<number>(1);
 
@@ -48,8 +51,13 @@ export default function ResponsiveDrawer({ changeEntry }: any) {
     };
     // changeEntry(newID + 1);
     setNewID(newID + 1);
-    setEntries((prevEntries) => [...prevEntries, newEntry]);
+    setEntries((prevEntries) => ({
+      ...prevEntries,
+      [newEntry.id]: newEntry.date,
+    }));
+    changeEntriesRecord(newEntry);
   };
+  <Brightness7OutlinedIcon />;
 
   const drawer = (
     <div>
@@ -60,10 +68,10 @@ export default function ResponsiveDrawer({ changeEntry }: any) {
         </Button>
         {/** If the button above is clicked, open the create entry dialog as below */}
         <List>
-          {entries.map((entry, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => changeEntry(entry.id)}>
-                <ListItemText primary={entry.date.toLocaleString()} />
+          {Object.entries(entries).map(([id, date]) => (
+            <ListItem key={id} disablePadding>
+              <ListItemButton onClick={() => changeEntry(Number(id))}>
+                <ListItemText primary={date.toLocaleString()} />
               </ListItemButton>
             </ListItem>
           ))}

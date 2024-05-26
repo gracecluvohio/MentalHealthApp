@@ -1,4 +1,4 @@
-export class API {
+export default class API {
   static HOST = "http://server.tristanphan.com:5001";
 
   static async sendChatMessage(
