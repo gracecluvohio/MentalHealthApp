@@ -1,81 +1,51 @@
 import * as React from "react";
-import API from "../api/API";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
-import { Message as MessageType } from "./types";
+import {Message as MessageType, Session} from "../types.tsx";
 
 interface ChatHomeProps {
-  entryID: number;
-  entries: Record<number, Date>;
-  initialData: any;
+    session: Session;
+    sendChatMessage: (message?: string, audio?: string) => void;
 }
 
 const ChatHome: React.FC<ChatHomeProps> = ({
-  entryID,
-  entries,
-  initialData,
-}) => {
-  const [messages, setMessages] = React.useState<MessageType[][]>([]);
-  //   console.log(messages);
-  //   console.log(entryID);
-  //   console.log(messages[entryID]);
+                                               session,
+                                               sendChatMessage,
+                                           }) => {
 
-  if (messages.length == 0) {
-    initialData;
-    // TODO POPULATE messages USE initialData
-  }
+    const messages: MessageType[] = [];
+    for (const interaction of session.conversation) {
+        if (interaction.user_text !== "" || interaction.user_audio_url !== undefined) {
+            messages.push({
+                isUser: true,
+                text: interaction.user_text,
+                audio: interaction.user_audio_url,
+            });
+        }
 
-  async function onSendMessage(message?: string, audio?: string) {
-    const newMessage = {
-      msg: message,
-      audioUrl: audio,
-      fromUser: true,
-    };
-    const newList = messages.slice();
-    newList[entryID] = [newMessage];
-    //   console.log(newList);
-    setMessages(newList);
-    try {
-      const serverOut = await API.sendChatMessage(
-        "user",
-        entries[entryID],
-        audio,
-        message
-      );
-      console.log(serverOut);
-      const geminiMsg = {
-        msg: serverOut.gemini_text,
-        fromUser: false,
-        audioUrl: serverOut.gemini_audio_url,
-      };
-      console.log(geminiMsg);
-      await API.setMood("user", entries[entryID], serverOut.mood);
-      if (typeof messages[entryID] === "undefined") {
-        //   console.log(messages, entryID);
-        const newList = messages.slice();
-        newList[entryID] = [newMessage, geminiMsg];
-        //   console.log(newList);
-        setMessages(newList);
-      } else {
-        setMessages(
-          messages.map((val, index) => {
-            if (index == entryID)
-              return (val || []).concat([newMessage, geminiMsg]);
-            else return val;
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
+        if (interaction.gemini_text !== "" || interaction.gemini_audio_url !== undefined) {
+            messages.push({
+                isUser: false,
+                text: interaction.gemini_text,
+                audio: interaction.gemini_audio_url,
+            });
+        } else {
+            messages.push({
+                isUser: false,
+                text: "...",
+                audio: undefined,
+            });
+
+        }
     }
-  }
-  return (
-    <>
-      <ChatInput onSendMessage={onSendMessage} />
-      <Messages messages={messages[entryID] ?? []} entryID={entryID}></Messages>
-      {/**here we need to add t */}
-    </>
-  );
+
+    return (
+        <>
+            <ChatInput sendChatMessage={sendChatMessage}/>
+            <Messages messages={messages}></Messages>
+            {/**here we need to add t */}
+        </>
+    );
 };
 
 export default ChatHome;

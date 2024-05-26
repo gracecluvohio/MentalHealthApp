@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 export default async function uploadFile(file: Blob): Promise<string> {
   const CLOUD_NAME: string = "dijcxemmw";
 
-  const public_id: string = `${uuid()}.wav`;
+  const public_id: string = `${uuid()}.webm`;
 
   const formData: FormData = new FormData();
   formData.append("file", file);
