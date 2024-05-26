@@ -1,24 +1,3 @@
-# MentalHealthApp
+# Solace ~ Your Mental Health Coach
 
-Ideas for components to include:
-
-- Button
-- Use the mic icon on mui for record button, other icons:   WORKING
-      - https://fonts.google.com/icons?icon.set=Material+Icons 
-- Toggle Button
-- Text Field
-- Avatar: profile pic, chat profile pic
-- Typography, if there is a default font, change that
-- possibly a backdrop
-- possibly bottom navigation or menu
-- Drawer for the dates/journal entries
-
-
-front to back
-
-- use post request
-- upload message text to the api.
-
-
-
-
+Solace is a full-stack website that uses Google's Gemini API and voice transcription to provide an immersive chatting experience. Our LLM is engineered to follow CBT methodology by addressing and deconstructing users' concerns and stressors. We also use a text classifier to help users track their emotions over time, allowing them to use Solace as a journal.
