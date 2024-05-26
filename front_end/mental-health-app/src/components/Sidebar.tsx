@@ -15,7 +15,6 @@ import { default as Icon, default as SvgIcon } from "@mui/material/SvgIcon";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import logo from "../assets/Solace_transparent.png";
 import AngryIcon from "../assets/angry-svgrepo-com.svg";
 import IconMapping from "./types";
 
@@ -88,7 +87,13 @@ export default function ResponsiveDrawer(
                 <ListItem disablePadding>
                   <ListItemButton onClick={() => changeEntry(Number(id))}>
                     <ListItemText primary={date.toLocaleString()} />
-                    <div style={{}}></div>
+                    <link
+                      rel="stylesheet"
+                      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+                    />
+                    <span class="material-symbols-outlined">
+                      sentiment_very_dissatisfied
+                    </span>
                   </ListItemButton>
                 </ListItem>
                 {index < Object.entries(entries).length - 1 && <Divider />}
@@ -121,7 +126,11 @@ export default function ResponsiveDrawer(
             <MenuIcon />
           </IconButton>
           <div>
-            <img style={{ width: 100, height: 100 }} src={logo} alt="Logo" />
+            <img
+              style={{ width: 100, height: 100 }}
+              src="https://res.cloudinary.com/dijcxemmw/image/upload/v1716704362/Solace_transparent_jwdfl5.png"
+              alt="Logo"
+            />
           </div>
         </Toolbar>
       </AppBar>

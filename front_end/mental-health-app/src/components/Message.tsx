@@ -1,5 +1,6 @@
 // This could be where we store messages
 import { Paper, Typography } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
 import * as React from "react";
 
 interface MessageProps {
@@ -32,11 +33,12 @@ const Message: React.FC<MessageProps> = ({
         sx={{
           padding: "8px",
           backgroundColor: fromUser ? "lightblue" : "lightgrey",
-          maxWidth: "70%",
+          maxWidth: "50%",
+          textAlign: fromUser ? "right" : "left",
         }}
       >
         {audioUrl != null ? (
-          <audio controls style={{ width: "200px" }}>
+          <audio controls style={{ width: "400px" }}>
             <source src={audioUrl} type="audio/wav" />
           </audio>
         ) : (

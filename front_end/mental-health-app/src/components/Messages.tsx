@@ -25,8 +25,9 @@ const Messages: React.FC<Props> = ({ messages, entryID }) => {
         flexDirection: "column",
         position: "fixed",
         bottom: "100px",
-        right: "0",
-        width: "calc(100% - 400px)",
+        right: "20px",
+        left: "300px",
+        // width: "calc(100% - 400px)",
         maxHeight: "70vh",
         overflowY: "auto",
       }}

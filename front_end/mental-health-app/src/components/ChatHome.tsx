@@ -25,26 +25,28 @@ const ChatHome: React.FC<ChatHomeProps> = ({
     // TODO POPULATE messages USE initialData
   }
 
-  async function onSendMessage(message: string) {
+  async function onSendMessage(message?: string, audio?: string) {
     const newMessage = {
       msg: message,
+      audioUrl: audio,
       fromUser: true,
     };
+    const newList = messages.slice();
+    newList[entryID] = [newMessage];
+    //   console.log(newList);
+    setMessages(newList);
     try {
       const serverOut = await API.sendChatMessage(
         "user",
         entries[entryID],
-        undefined,
+        audio,
         message
       );
       console.log(serverOut);
       const geminiMsg = {
         msg: serverOut.gemini_text,
         fromUser: false,
-        // TRISTAP TEST
-        audioUrl:
-          "https://res.cloudinary.com/dijcxemmw/raw/upload/v1716689396/tezolrv1mfcm0lpferjq.wav",
-        // audioUrl: serverOut.gemini_audio_url,
+        audioUrl: serverOut.gemini_audio_url,
       };
       console.log(geminiMsg);
       await API.setMood("user", entries[entryID], serverOut.mood);

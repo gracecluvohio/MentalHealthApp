@@ -3,14 +3,13 @@ import StopIcon from "@mui/icons-material/Stop";
 import Fab from "@mui/material/Fab";
 import React, { useEffect, useRef, useState } from "react";
 import API from "../api/API";
-import CDN from "../api/CDN";
+import uploadFile from "../api/CDN";
 
 interface AudioRecorderProps {
-  entryID: number;
-  entries: Record<number, Date>;
+  sendMessage: (message?: string, audio?: string) => void;
 }
 
-const AudioRecorder: React.FC<AudioRecorderProps> = ({ entryID, entries }) => {
+const AudioRecorder: React.FC<AudioRecorderProps> = ({ sendMessage }) => {
   const mimeType = "audio/webm";
   const [permission, setPermission] = useState<boolean>(false);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
@@ -76,8 +75,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({ entryID, entries }) => {
         const audioUrl = URL.createObjectURL(audioBlob);
         // setAudio(audioUrl);
         setAudio(audioBlob);
-        const aud = CDN.uploadFile(audio);
-        API.sendChatMessage("user", entries[entryID], aud, '');
+        const aud = await uploadFile(audioBlob);
+        sendMessage(undefined, aud);
         //find the date, TO
 
         console.log(audioUrl);

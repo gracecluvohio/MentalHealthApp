@@ -9,13 +9,6 @@ import ResponsiveDrawer from "./components/Sidebar";
 import { Message as MessageType } from "./components/types";
 import theme from "./theme";
 
-/**creates the font for our text */
-// const theme = createTheme({
-//   typography: {
-//     fontFamily: ["Chilanka", "cursive"].join(","),
-//   },
-// });
-
 /**main function for our App as of now*/
 function App() {
   const [entryID, setEntryID] = useState(0);
@@ -56,9 +49,6 @@ function App() {
           />
         </div>
       </div>
-
-      {/* <RecordButton /> */}
-      <AudioRecorder entryID={entryID} entries={entries} />
     </ThemeProvider>
   );
 }

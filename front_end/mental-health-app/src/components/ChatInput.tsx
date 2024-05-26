@@ -5,9 +5,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
+import AudioRecorder from "./AudioRecorder";
 
 interface ChatInputProps {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message?: string, audio?: string) => void;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
@@ -18,10 +19,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     setMessage(event.target.value);
   };
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
+  const handleSendMessage = (message?: string, audio?: Blob) => {
+    if ((message != null && message.trim()) || audio != null) {
       // console.log(entries);
-      onSendMessage(message);
+      onSendMessage(message, audio);
       setMessage("");
     }
   };
@@ -29,7 +30,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      handleSendMessage();
+      handleSendMessage(message);
     }
   };
 
@@ -77,6 +78,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
+                <AudioRecorder sendMessage={handleSendMessage} />
                 <IconButton edge="end" onClick={handleSendMessage}>
                   <SendIcon />
                 </IconButton>
