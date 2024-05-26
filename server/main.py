@@ -11,7 +11,7 @@ from processing import gemini
 from processing.cdn import upload
 from processing.gemini import prompt_gemini, user_sessions
 from processing.mood import infer_mood
-from processing.speech_to_text import speech_to_text_cpp
+from processing.speech_to_text import speech_to_text
 from processing.text_to_speech import text_to_speech_coqui
 from structure import data_storage
 from structure.data_storage import user_profiles
@@ -39,13 +39,11 @@ def send_chat_message(username: str, date: str, user_audio_url: str = None, text
     else:
         result = requests.get(user_audio_url)
         user_audio: bytes = result.content
-        user_message = speech_to_text_cpp(user_audio)
+        user_message = speech_to_text(user_audio)
 
     gemini_message = prompt_gemini(username, msg_date, user_message)
-    gemini_audio_url = ""
-    if user_audio_url is not None:
-        gemini_audio_data: bytes = text_to_speech_coqui(gemini_message)
-        gemini_audio_url = upload(gemini_audio_data)
+    gemini_audio_data: bytes = text_to_speech_coqui(gemini_message)
+    gemini_audio_url = upload(gemini_audio_data)
 
     # Retrieve session from disk
     profile: UserProfile = user_profiles.setdefault(username, dict())
