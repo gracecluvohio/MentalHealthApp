@@ -5,6 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
+import API from "../api";
 
 interface Props {
   onSendMessage: (message: string) => void;
@@ -13,9 +14,6 @@ interface Props {
 export default function ChatInput({ onSendMessage }: Props) {
   const theme = useTheme();
   const [message, setMessage] = React.useState<string>("");
-  // const [messages, setMessages] = React.useState<
-  //   { text: string; fromUser: boolean }[]
-  // >([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -23,19 +21,10 @@ export default function ChatInput({ onSendMessage }: Props) {
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      // setMessages((prevMessages) => [
-      //   ...prevMessages,
-      //   { text: message, fromUser: true },
-      //]);
       onSendMessage(message);
       setMessage("");
     }
   };
-
-  // // uncomment below to print the list of messages on console
-  //   React.useEffect(() => {
-  //     console.log("Updated messages:", messages);
-  //   }, [messages]);
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {

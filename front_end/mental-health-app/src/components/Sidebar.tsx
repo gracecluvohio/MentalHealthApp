@@ -3,18 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
@@ -22,12 +16,14 @@ import { Entry as EntryType } from "./types";
 
 const drawerWidth = 240;
 
-export default function ResponsiveDrawer() {
+export default function ResponsiveDrawer({ changeEntry }: any) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const [openForm, setOpenForm] = React.useState(false);
-  const [entries, setEntries] = React.useState<EntryType[]>([]);
-  const [curID, setCurID] = React.useState<number>(1);
+  const [entries, setEntries] = React.useState<EntryType[]>([
+    { id: 0, date: new Date() },
+  ]);
+  const [newID, setNewID] = React.useState<number>(1);
+  // const [curEntryID, setCurEntryID] = React.useState<number>(1);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -45,26 +41,14 @@ export default function ResponsiveDrawer() {
   };
 
   const handleClickCreate = () => {
-    setOpenForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setOpenForm(false);
-  };
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries((formData as any).entries());
-    const title = formJson.title as string;
+    const dateObj: Date = new Date();
     const newEntry = {
-      id: curID,
-      title: title,
+      id: newID,
+      date: dateObj,
     };
-    setCurID(curID + 1);
+    // changeEntry(newID + 1);
+    setNewID(newID + 1);
     setEntries((prevEntries) => [...prevEntries, newEntry]);
-    console.log(entries);
-    handleCloseForm();
   };
 
   const drawer = (
@@ -75,41 +59,11 @@ export default function ResponsiveDrawer() {
           Create new entry
         </Button>
         {/** If the button above is clicked, open the create entry dialog as below */}
-        <Dialog
-          open={openForm}
-          onClose={handleCloseForm}
-          PaperProps={{
-            component: "form",
-            onSubmit: handleFormSubmit,
-          }}
-        >
-          <DialogTitle>Journal Entry Title</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Enter the title for your journal entry.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="title"
-              name="title"
-              label="Title"
-              type="title"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseForm}>Cancel</Button>
-            <Button type="submit">Confirm</Button>
-          </DialogActions>
-        </Dialog>
         <List>
           {entries.map((entry, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={entry.title} />
+              <ListItemButton onClick={() => changeEntry(entry.id)}>
+                <ListItemText primary={entry.date.toLocaleString()} />
               </ListItemButton>
             </ListItem>
           ))}

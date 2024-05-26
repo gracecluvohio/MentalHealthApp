@@ -5,5 +5,5 @@ export interface Message {
 
 export interface Entry {
   id: number;
-  title: string;
+  date: Date;
 }

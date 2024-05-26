@@ -17,7 +17,7 @@ const Messages: React.FC<Props> = ({ messages, entryID }) => {
   }, [messages]);
 
   return (
-    <ul
+    <ol
       style={{
         padding: 0,
         margin: 0,
@@ -41,7 +41,7 @@ const Messages: React.FC<Props> = ({ messages, entryID }) => {
         />
       ))}
       <div ref={bottomRef}></div>
-    </ul>
+    </ol>
   );
 };
 
