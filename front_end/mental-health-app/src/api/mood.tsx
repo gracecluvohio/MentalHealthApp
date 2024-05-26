@@ -1,5 +1,6 @@
 enum Mood {
-  anger = 1,
+  none = 0,
+  anger,
   fear,
   joy,
   love,

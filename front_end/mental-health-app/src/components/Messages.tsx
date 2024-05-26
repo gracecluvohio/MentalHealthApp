@@ -35,6 +35,7 @@ const Messages: React.FC<Props> = ({ messages, entryID }) => {
         <Message
           key={`${entryID}-${index}`}
           msg={m.msg}
+          audioUrl={m.audioUrl}
           fromUser={m.fromUser}
           entryID={entryID}
           index={index}

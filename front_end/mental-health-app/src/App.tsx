@@ -34,6 +34,7 @@ function App() {
   };
 
   const handleChangeEntRecord = (newEntryObj: { id: number; date: Date }) => {
+    console.log("changing entries");
     setEntries((prevEntries) => ({
       ...prevEntries,
       [newEntryObj.id]: newEntryObj.date,
@@ -57,7 +58,7 @@ function App() {
       </div>
 
       {/* <RecordButton /> */}
-      <AudioRecorder />
+      <AudioRecorder entryID={entryID} entries={entries} />
     </ThemeProvider>
   );
 }

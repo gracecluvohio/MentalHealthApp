@@ -8,15 +8,9 @@ import * as React from "react";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
-  entryID: number;
-  entries: Record<number, Date>;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({
-  onSendMessage,
-  entries,
-  entryID,
-}) => {
+const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const theme = useTheme();
   const [message, setMessage] = React.useState<string>("");
 

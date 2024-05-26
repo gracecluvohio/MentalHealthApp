@@ -1,6 +1,7 @@
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 
-export default async function uploadFile(file: File): Promise<string> {
+
+export default async function uploadFile(file: Blob): Promise<string> {
   const CLOUD_NAME: string = "dijcxemmw";
 
   const public_id: string = `${uuid()}.wav`;

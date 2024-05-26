@@ -2,16 +2,22 @@ import MicIcon from "@mui/icons-material/Mic";
 import StopIcon from "@mui/icons-material/Stop";
 import Fab from "@mui/material/Fab";
 import React, { useEffect, useRef, useState } from "react";
-import API from "../api/API"
+import API from "../api/API";
+import CDN from "../api/CDN";
 
-const AudioRecorder = () => {
+interface AudioRecorderProps {
+  entryID: number;
+  entries: Record<number, Date>;
+}
+
+const AudioRecorder: React.FC<AudioRecorderProps> = ({ entryID, entries }) => {
   const mimeType = "audio/webm";
   const [permission, setPermission] = useState<boolean>(false);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<string>("inactive");
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
-  const [audio, setAudio] = useState<string | null>(null);
+  const [audio, setAudio] = useState<string | null | Blob>(null);
 
   const getMicrophonePermission = async (): Promise<void> => {
     if ("MediaRecorder" in window) {
@@ -63,12 +69,17 @@ const AudioRecorder = () => {
     //stops the recording instance
     if (mediaRecorder !== null && mediaRecorder.current != null) {
       mediaRecorder.current.stop();
-      mediaRecorder.current.onstop = () => {
+      mediaRecorder.current.onstop = async () => {
         //creates a blob file from the audiochunks data
         const audioBlob = new Blob(audioChunks, { type: mimeType });
         //creates a playable URL from the blob file.
         const audioUrl = URL.createObjectURL(audioBlob);
-        setAudio(audioUrl);
+        // setAudio(audioUrl);
+        setAudio(audioBlob);
+        const aud = CDN.uploadFile(audio);
+        API.sendChatMessage("user", entries[entryID], aud, '');
+        //find the date, TO
+
         console.log(audioUrl);
         setAudioChunks([]);
       };
@@ -121,11 +132,11 @@ const AudioRecorder = () => {
             {/* <audio src={audio} controls></audio> */}
 
             <a download href={audio}>
-              API.uploadFile(audio)
               Download Recording
             </a>
           </div>
         ) : null}
+        {/* CDN.uploadFile(audio); */}
       </main>
     </div>
   );

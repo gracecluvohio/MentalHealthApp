@@ -4,12 +4,19 @@ import * as React from "react";
 
 interface MessageProps {
   msg: string;
+  audioUrl: string | null;
   fromUser: boolean;
   entryID: number;
   index: number;
 }
 
-const Message: React.FC<MessageProps> = ({ msg, fromUser, entryID, index }) => {
+const Message: React.FC<MessageProps> = ({
+  msg,
+  fromUser,
+  audioUrl,
+  entryID,
+  index,
+}) => {
   return (
     <li
       key={`${entryID}-${index}`}
@@ -28,6 +35,13 @@ const Message: React.FC<MessageProps> = ({ msg, fromUser, entryID, index }) => {
           maxWidth: "70%",
         }}
       >
+        {audioUrl != null ? (
+          <audio controls style={{ width: "200px" }}>
+            <source src={audioUrl} type="audio/wav" />
+          </audio>
+        ) : (
+          <></>
+        )}
         <Typography variant="body1">{msg}</Typography>
       </Paper>
     </li>

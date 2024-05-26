@@ -6,7 +6,7 @@ export default class API {
     date: Date,
     user_audio_url?: string,
     text?: string
-  ): Promise<object> {
+  ): Promise<any> {
     if (user_audio_url == null && text == null) {
       throw new Error("Either user_audio_url or text must be provided");
     }
@@ -36,7 +36,7 @@ export default class API {
     username: string,
     date: Date,
     mood: number
-  ): Promise<object> {
+  ): Promise<any> {
     const url = new URL(`${API.HOST}/set_mood`);
 
     // Set up the query parameters
@@ -57,7 +57,7 @@ export default class API {
     }
   }
 
-  static async getSessionHistory(username: string): Promise<object> {
+  static async getSessionHistory(username: string): Promise<any> {
     const url = new URL(`${API.HOST}/get_session_history`);
 
     // Set up the query parameters

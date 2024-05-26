@@ -41,6 +41,10 @@ const ChatHome: React.FC<ChatHomeProps> = ({
       const geminiMsg = {
         msg: serverOut.gemini_text,
         fromUser: false,
+        // TRISTAP TEST
+        audioUrl:
+          "https://res.cloudinary.com/dijcxemmw/raw/upload/v1716689396/tezolrv1mfcm0lpferjq.wav",
+        // audioUrl: serverOut.gemini_audio_url,
       };
       console.log(geminiMsg);
       await API.setMood("user", entries[entryID], serverOut.mood);
@@ -65,11 +69,7 @@ const ChatHome: React.FC<ChatHomeProps> = ({
   }
   return (
     <>
-      <ChatInput
-        onSendMessage={onSendMessage}
-        entries={entries}
-        entryID={entryID}
-      />
+      <ChatInput onSendMessage={onSendMessage} />
       <Messages messages={messages[entryID] ?? []} entryID={entryID}></Messages>
       {/**here we need to add t */}
     </>

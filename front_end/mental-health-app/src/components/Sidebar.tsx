@@ -15,6 +15,7 @@ import { default as Icon, default as SvgIcon } from "@mui/material/SvgIcon";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import logo from "../assets/Solace_transparent.png";
 import AngryIcon from "../assets/angry-svgrepo-com.svg";
 import IconMapping from "./types";
 
@@ -31,7 +32,7 @@ const drawerWidth = 240;
 
 export default function ResponsiveDrawer(
   { changeEntry }: any, // ignore warnings for these
-  { changeEntriesRecord }: any,
+  { changeEntriesRecord }: any
 ) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -81,16 +82,19 @@ export default function ResponsiveDrawer(
         </Button>
         {/** If the button above is clicked, open the create entry dialog as below */}
         <List>
-          {Object.entries(entries).map(([id, date], index) => (
-            <React.Fragment key={id}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => changeEntry(Number(id))}>
-                  <ListItemText primary={date.toLocaleString()} />
-                </ListItemButton>
-              </ListItem>
-              {index < Object.entries(entries).length - 1 && <Divider />}
-            </React.Fragment>
-          ))}
+          {Object.entries(entries)
+            .map(([id, date], index) => (
+              <React.Fragment key={id}>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => changeEntry(Number(id))}>
+                    <ListItemText primary={date.toLocaleString()} />
+                    <div style={{}}></div>
+                  </ListItemButton>
+                </ListItem>
+                {index < Object.entries(entries).length - 1 && <Divider />}
+              </React.Fragment>
+            ))
+            .reverse()}
         </List>
       </React.Fragment>
     </div>
@@ -117,7 +121,7 @@ export default function ResponsiveDrawer(
             <MenuIcon />
           </IconButton>
           <div>
-            <img style={{ width: 100, height: 100 }} src={"src/assets/Solace_transparent.png"} alt="Logo" />
+            <img style={{ width: 100, height: 100 }} src={logo} alt="Logo" />
           </div>
         </Toolbar>
       </AppBar>
