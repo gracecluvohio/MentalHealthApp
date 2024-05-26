@@ -14,4 +14,11 @@ Ideas for components to include:
 - Drawer for the dates/journal entries
 
 
+front to back
+
+- use post request
+- upload message text to the api.
+
+
+
 
