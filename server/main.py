@@ -5,6 +5,7 @@ from typing import List
 import requests
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from processing import gemini
 from processing.cdn import upload
@@ -19,7 +20,14 @@ from structure.data_types import UserProfile, Session, Interaction, Mood
 app = FastAPI()
 
 
-# ODO error handling :(
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/send_chat_message")
 def send_chat_message(username: str, date: str, user_audio_url: str = None, text: str = None):

@@ -1,6 +1,6 @@
 uvicorn~=0.29.0
 fastapi~=0.111.0
-openai-whisper~=20231117
+openai-whisper==20231117
 whisper_cpp_python~=0.2.0
 google-generativeai~=0.5.4
 requests~=2.32.2
