@@ -38,7 +38,7 @@ class Session:
 
     def to_json(self) -> dict:
         return {
-            "mood": self.mood.value,
+            "mood": self.mood if isinstance(self.mood, int) else self.mood.value,
             "conversation": [interaction.to_json() for interaction in self.conversation]
         }
 

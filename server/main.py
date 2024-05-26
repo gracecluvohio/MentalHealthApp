@@ -1,11 +1,15 @@
 import sys
 from datetime import datetime
+from io import BytesIO
 from typing import List
 
+import puremagic
 import requests
 import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from pydub import AudioSegment
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 
 from processing import gemini
 from processing.cdn import upload
@@ -17,16 +21,17 @@ from structure import data_storage
 from structure.data_storage import user_profiles
 from structure.data_types import UserProfile, Session, Interaction, Mood
 
-app = FastAPI()
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*']
+    )
+]
 
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI(middleware=middleware)
 
 
 @app.get("/send_chat_message")
@@ -39,7 +44,19 @@ def send_chat_message(username: str, date: str, user_audio_url: str = None, text
     else:
         result = requests.get(user_audio_url)
         user_audio: bytes = result.content
-        user_message = speech_to_text(user_audio)
+
+        # Guess user audio file extension
+        extension_guesses = puremagic.magic_stream(BytesIO(user_audio))
+        extension_guesses.sort(key=lambda x: x.confidence, reverse=True)
+        fmt = extension_guesses[0].extension[1:]
+
+        # Convert audio to wav
+        segment = AudioSegment.from_file(BytesIO(user_audio), format=fmt)
+        wav_audio = BytesIO()
+        segment.export(wav_audio, format="wav")
+
+        # Transcribe audio
+        user_message = speech_to_text(wav_audio.read())
 
     gemini_message = prompt_gemini(username, msg_date, user_message)
     gemini_audio_data: bytes = text_to_speech_coqui(gemini_message)
