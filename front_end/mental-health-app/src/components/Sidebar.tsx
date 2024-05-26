@@ -11,15 +11,27 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { default as Icon, default as SvgIcon } from "@mui/material/SvgIcon";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import AngryIcon from "../assets/angry-svgrepo-com.svg";
+import IconMapping from "./types";
 
 const drawerWidth = 240;
 
+{
+  /* <SvgIcon component={AngryIcon} inheritViewBox/> */
+}
+// : IconMapping
+// const iconMapping = {
+//   1 : AngryIcon
+
+// }
+
 export default function ResponsiveDrawer(
   { changeEntry }: any, // ignore warnings for these
-  { changeEntriesRecord }: any
+  { changeEntriesRecord }: any,
 ) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -104,9 +116,9 @@ export default function ResponsiveDrawer(
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Solace
-          </Typography>
+          <div>
+            <img style={{ width: 100, height: 100 }} src={"src/assets/Solace_transparent.png"} alt="Logo" />
+          </div>
         </Toolbar>
       </AppBar>
       <Box

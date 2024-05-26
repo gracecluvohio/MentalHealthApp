@@ -2,6 +2,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import StopIcon from "@mui/icons-material/Stop";
 import Fab from "@mui/material/Fab";
 import React, { useEffect, useRef, useState } from "react";
+import API from "../api/API"
 
 const AudioRecorder = () => {
   const mimeType = "audio/webm";
@@ -118,7 +119,9 @@ const AudioRecorder = () => {
         {audio ? (
           <div className="audio-player">
             {/* <audio src={audio} controls></audio> */}
+
             <a download href={audio}>
+              API.uploadFile(audio)
               Download Recording
             </a>
           </div>

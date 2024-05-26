@@ -25,32 +25,42 @@ const ChatHome: React.FC<ChatHomeProps> = ({
     // TODO POPULATE messages USE initialData
   }
 
-  function onSendMessage(message: string) {
+  async function onSendMessage(message: string) {
     const newMessage = {
       msg: message,
       fromUser: true,
     };
-    if (typeof messages[entryID] === "undefined") {
-      //   console.log(messages, entryID);
-      const newList = messages.slice();
-      newList[entryID] = [newMessage];
-      const serverOut = API.sendChatMessage(
+    try {
+      const serverOut = await API.sendChatMessage(
         "user",
         entries[entryID],
         undefined,
         message
       );
       console.log(serverOut);
-      // newList[entryID] = [serverOut["gemini_text"]];
-      //   console.log(newList);
-      setMessages(newList);
-    } else {
-      setMessages(
-        messages.map((val, index) => {
-          if (index == entryID) return (val || []).concat([newMessage]);
-          else return val;
-        })
-      );
+      const geminiMsg = {
+        msg: serverOut.gemini_text,
+        fromUser: false,
+      };
+      console.log(geminiMsg);
+      await API.setMood("user", entries[entryID], serverOut.mood);
+      if (typeof messages[entryID] === "undefined") {
+        //   console.log(messages, entryID);
+        const newList = messages.slice();
+        newList[entryID] = [newMessage, geminiMsg];
+        //   console.log(newList);
+        setMessages(newList);
+      } else {
+        setMessages(
+          messages.map((val, index) => {
+            if (index == entryID)
+              return (val || []).concat([newMessage, geminiMsg]);
+            else return val;
+          })
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
   return (
@@ -61,6 +71,7 @@ const ChatHome: React.FC<ChatHomeProps> = ({
         entryID={entryID}
       />
       <Messages messages={messages[entryID] ?? []} entryID={entryID}></Messages>
+      {/**here we need to add t */}
     </>
   );
 };

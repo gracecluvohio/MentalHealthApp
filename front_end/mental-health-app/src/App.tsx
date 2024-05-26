@@ -24,9 +24,9 @@ function App() {
   });
   const [initialData, setInitialData] = useState({});
 
-  API.getSessionHistory("TODO USERNAME").then((res: any) => {
-    setInitialData(res);
-  });
+  // API.getSessionHistory("TODO USERNAME").then((res: any) => {
+  //   setInitialData(res);
+  // });
 
   const handleChangeEntry = (newEntryID: number) => {
     console.log("Changing entry ID to:", newEntryID);
@@ -45,7 +45,7 @@ function App() {
       <div className="App">
         <ResponsiveDrawer
           changeEntry={handleChangeEntry}
-          updateEntries={handleChangeEntRecord}
+          changeEntriesRecord={handleChangeEntRecord}
         />
         <div className="chatContainer">
           <ChatHome
